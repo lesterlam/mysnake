@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const restartBtn = document.querySelector('.restart')
 
   const width = 10
-  let currentIndex = 0 //so first div in our grid
+  // let currentIndex = 0 //so first div in our grid
   let heartIndex = 0 //so first div in our grid
   let currentSnake = [2, 1, 0] // so the 3rd div in our grid being 2 (or the HEAD), and 0 being the end (TAIL, with all 1's being the body fro now on)
   let direction = 1
@@ -127,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //assign functions to keycodes
   function control(e) {
-    squares[currentIndex].classList.remove('snake') //we are removing the class of snake from ALL the squares.
 
     if (e.keyCode === 39) {
       direction = 1 //if we press the right arrow on our keyboard, the snake will go right one
