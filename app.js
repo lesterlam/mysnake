@@ -7,16 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const restartBtn = document.querySelector('.restart')
 
   const width = 10
-  // let currentIndex = 0 //so first div in our grid
   let heartIndex = 0 //so first div in our grid
   let currentSnake = [2, 1, 0] // so the 3rd div in our grid being 2 (or the HEAD), and 0 being the end (TAIL, with all 1's being the body fro now on)
-  let direction = 1
+  let dirVal = 1
   let headRotation = 'rotate(90deg)'
   let score = 0
   let speed = 0.9
   let intervalTime = 0
   let interval = 0
   let joyInterval = 0
+  let direction = 'E'
 
 
   //to start, and restart the game
@@ -27,12 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
     clearInterval(interval)
     score = 0
     randomheart()
-    direction = 1
+    dirVal = 1
     headRotation = 'rotate(90deg)'
     scoreDisplay.innerText = score
     intervalTime = 1000
     currentSnake = [2, 1, 0]
-    currentIndex = 0
+    direction = 'E'
     currentSnake.forEach(index => squares[index].classList.add('snake'))
     squares[currentSnake[0]].classList.add('snakehead')
     squares[currentSnake[0]].style.transform = headRotation
@@ -84,11 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //deals with snake hitting border and snake hitting self
     if (
-      (currentSnake[0] + width >= (width * width) && direction === width) || //if snake hits bottom
-      (currentSnake[0] % width === width - 1 && direction === 1) || //if snake hits right wall
-      (currentSnake[0] % width === 0 && direction === -1) || //if snake hits left wall
-      (currentSnake[0] - width < 0 && direction === -width) ||  //if snake hits the top
-      squares[currentSnake[0] + direction].classList.contains('snake') //if snake goes into itself
+      (currentSnake[0] + width >= (width * width) && dirVal === width) || //if snake hits bottom
+      (currentSnake[0] % width === width - 1 && dirVal === 1) || //if snake hits right wall
+      (currentSnake[0] % width === 0 && dirVal === -1) || //if snake hits left wall
+      (currentSnake[0] - width < 0 && dirVal === -width) ||  //if snake hits the top
+      squares[currentSnake[0] + dirVal].classList.contains('snake') //if snake goes into itself
     ) {
       disableControl()
       enableButton(restartBtn)
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tail = currentSnake.pop() //removes last ite of the array and shows it
     squares[tail].classList.remove('snake')  //removes class of snake from the TAIL
-    currentSnake.unshift(currentSnake[0] + direction) //gives direction to the head of the array
+    currentSnake.unshift(currentSnake[0] + dirVal) //gives dirVal to the head of the array
 
     //deals with snake getting heart
     if (squares[currentSnake[0]].classList.contains('heart')) {
@@ -127,23 +127,23 @@ document.addEventListener('DOMContentLoaded', () => {
     squares[heartIndex].classList.add('heart')
   }
 
-  //set direction
+  //set dirVal
   function setDirection(d) {
     switch (d) {
       case 'N': 
-        direction = -width // if we press the up arrow, the snake will go back ten divs, appearing to go up
+        dirVal = -width // if we press the up arrow, the snake will go back ten divs, appearing to go up
         headRotation = 'rotate(0deg)'
         break
       case 'E':
-        direction = 1 //if we press the right arrow on our keyboard, the snake will go right one
+        dirVal = 1 //if we press the right arrow on our keyboard, the snake will go right one
         headRotation = 'rotate(90deg)'
         break
       case 'S':
-        direction = +width //if we press down, the snake head will instantly appear in the div ten divs 
+        dirVal = +width //if we press down, the snake head will instantly appear in the div ten divs 
         headRotation = 'rotate(180deg)' 
         break
       case 'W':  
-        direction = -1 // if we press left, the snake will go left one div
+        dirVal = -1 // if we press left, the snake will go left one div
         headRotation = 'rotate(-90deg)'
         break
     }
@@ -154,35 +154,35 @@ document.addEventListener('DOMContentLoaded', () => {
   function control(e) {
 
     if (e.keyCode === 39) {
-      setDirection('E')
+      direction = 'E'
     } else if (e.keyCode === 38) {
-      setDirection('N')
+      direction = 'N'
     } else if (e.keyCode === 37) {
-      setDirection('W')
+      direction = 'W'
     } else if (e.keyCode === 40) {
-      setDirection('S')
+      direction = 'S'
     }
+    setDirection(direction)
 
   }
 
-  //read JoyStick direction
+  //read JoyStick dirVal
   function readJoyStick() {
-    if (Joy1.GetX() != 0 && Joy1.GetY() != 0) {
-      
-      if (Math.abs(Joy1.GetX()) - Math.abs(Joy1.GetY()) >= 0) {
-        if (Joy1.GetX() > 0) {
-          setDirection('E')
-        } else {
-          setDirection('W')
-        }
+    let xyDiff = Math.abs(Joy1.GetX()) - Math.abs(Joy1.GetY())
+    if (xyDiff > 0) {
+      if (Joy1.GetX() > 0) {
+        direction = 'E'
       } else {
-        if (Joy1.GetY() > 0) {
-          setDirection('N')
-        } else {
-          setDirection('S')
-        }
+        direction = 'W'
       }
-    }
+    } else if (xyDiff < 0) {
+      if (Joy1.GetY() > 0) {
+        direction = 'N'
+      } else {
+        direction = 'S'
+      }
+    } 
+    setDirection(direction)
   }
 
   startBtn.addEventListener('click', startGame)
@@ -194,10 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Create JoyStick object into the DIV 'joy1Div'
   const Joy1 = new JoyStick('joy1Div');
-  // let joy1X = document.getElementById("joy1X");
-  // let joy1Y = document.getElementById("joy1Y");
-  // setInterval(function(){ joy1X.value=Joy1.GetX(); }, 50);
-  // setInterval(function(){ joy1Y.value=Joy1.GetY(); }, 50);
   
 
 })
