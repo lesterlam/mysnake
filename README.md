@@ -1,6 +1,6 @@
 # My Snake - modified snake game 
 A modified Snake game using Java Script
-Based on the vanilia version by [Ania Kubow](https://github.com/kubowania/Nokia3310-Snake)
+based on the vanilia version by [Ania Kubow](https://github.com/kubowania/Nokia3310-Snake)
 
 ## Objectives
 * setup a project environment in VSCode
