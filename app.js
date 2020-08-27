@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //to start, and restart the game
   function startGame() {
-    squares.forEach(function(e) {
+    squares.forEach(function (e) {
       e.removeAttribute('class')
     })
     clearInterval(interval)
@@ -69,12 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function disableControl() {
-    document.removeEventListener('keyup', control)
+    document.removeEventListener('keydown', control)
     clearInterval(joyInterval)
   }
 
   function enableControl() {
-    document.addEventListener('keyup', control)
+    document.addEventListener('keydown', control)
     joyInterval = setInterval(readJoyStick, 50)
   }
 
@@ -99,6 +99,12 @@ document.addEventListener('DOMContentLoaded', () => {
     squares[tail].classList.remove('snake')  //removes class of snake from the TAIL
     currentSnake.unshift(currentSnake[0] + dirVal) //gives dirVal to the head of the array
 
+    squares[currentSnake[0]].classList.add('snake')
+    squares[currentSnake[1]].classList.remove('snakehead')
+    squares[currentSnake[1]].style.transform = null
+    squares[currentSnake[0]].classList.add('snakehead')
+    squares[currentSnake[0]].style.transform = headRotation
+
     //deals with snake getting heart
     if (squares[currentSnake[0]].classList.contains('heart')) {
       squares[currentSnake[0]].classList.remove('heart')
@@ -111,11 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
       intervalTime = intervalTime * speed
       interval = setInterval(moveOutcomes, intervalTime)
     }
-    squares[currentSnake[0]].classList.add('snake')
-    squares[currentSnake[1]].classList.remove('snakehead')
-    squares[currentSnake[1]].style.transform = null
-    squares[currentSnake[0]].classList.add('snakehead')
-    squares[currentSnake[0]].style.transform = headRotation
   }
 
 
@@ -130,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //set dirVal
   function setDirection(d) {
     switch (d) {
-      case 'N': 
+      case 'N':
         dirVal = -width // if we press the up arrow, the snake will go back ten divs, appearing to go up
         headRotation = 'rotate(0deg)'
         break
@@ -140,9 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
         break
       case 'S':
         dirVal = +width //if we press down, the snake head will instantly appear in the div ten divs 
-        headRotation = 'rotate(180deg)' 
+        headRotation = 'rotate(180deg)'
         break
-      case 'W':  
+      case 'W':
         dirVal = -1 // if we press left, the snake will go left one div
         headRotation = 'rotate(-90deg)'
         break
@@ -181,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         direction = 'S'
       }
-    } 
+    }
     setDirection(direction)
   }
 
@@ -194,6 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Create JoyStick object into the DIV 'joy1Div'
   const Joy1 = new JoyStick('joy1Div');
-  
+
 
 })
