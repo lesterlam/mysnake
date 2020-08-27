@@ -23,9 +23,9 @@ h1 {
   background-color: #ef5839;
   color: #fff;
   text-decoration: none;;
-  border-radius: 1em;
-  margin-left: 1em;
-  width: 4em;
+  border-radius: 15px;
+  margin: 0 0 15px 30px;
+  width: 80px;
   display: none;
 }
 
@@ -115,7 +115,11 @@ Sourced from: https://css-tricks.com/the-shapes-of-css/
 
 footer {
   padding: 10px;
-  background-color: grey;
-
+  background-color: #124;
 }
 
+#joy1Div {
+  width: 200px;
+  height: 200px;
+  margin: 50px auto;
+}

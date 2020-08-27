@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let speed = 0.9
   let intervalTime = 0
   let interval = 0
+  let joyInterval = 0
 
 
   //to start, and restart the game
@@ -69,10 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function disableControl() {
     document.removeEventListener('keyup', control)
+    clearInterval(joyInterval)
   }
 
   function enableControl() {
     document.addEventListener('keyup', control)
+    joyInterval = setInterval(readJoyStick, 50)
   }
 
 
@@ -124,24 +127,62 @@ document.addEventListener('DOMContentLoaded', () => {
     squares[heartIndex].classList.add('heart')
   }
 
+  //set direction
+  function setDirection(d) {
+    switch (d) {
+      case 'N': 
+        direction = -width // if we press the up arrow, the snake will go back ten divs, appearing to go up
+        headRotation = 'rotate(0deg)'
+        break
+      case 'E':
+        direction = 1 //if we press the right arrow on our keyboard, the snake will go right one
+        headRotation = 'rotate(90deg)'
+        break
+      case 'S':
+        direction = +width //if we press down, the snake head will instantly appear in the div ten divs 
+        headRotation = 'rotate(180deg)' 
+        break
+      case 'W':  
+        direction = -1 // if we press left, the snake will go left one div
+        headRotation = 'rotate(-90deg)'
+        break
+    }
+    squares[currentSnake[0]].style.transform = headRotation
+  }
 
   //assign functions to keycodes
   function control(e) {
 
     if (e.keyCode === 39) {
-      direction = 1 //if we press the right arrow on our keyboard, the snake will go right one
-      headRotation = 'rotate(90deg)'
+      setDirection('E')
     } else if (e.keyCode === 38) {
-      direction = -width // if we press the up arrow, the snake will go back ten divs, appearing to go up
-      headRotation = 'rotate(0deg)'
+      setDirection('N')
     } else if (e.keyCode === 37) {
-      direction = -1 // if we press left, the snake will go left one div
-      headRotation = 'rotate(-90deg)'
+      setDirection('W')
     } else if (e.keyCode === 40) {
-      direction = +width //if we press down, the snake head will instantly appear in the div ten divs from where you are now
-      headRotation = 'rotate(180deg)'
+      setDirection('S')
     }
-    squares[currentSnake[0]].style.transform = headRotation
+
+  }
+
+  //read JoyStick direction
+  function readJoyStick() {
+    if (Joy1.GetX() != 0 && Joy1.GetY() != 0) {
+      
+      if (Math.abs(Joy1.GetX()) - Math.abs(Joy1.GetY()) >= 0) {
+        if (Joy1.GetX() > 0) {
+          setDirection('E')
+        } else {
+          setDirection('W')
+        }
+      } else {
+        if (Joy1.GetY() > 0) {
+          setDirection('N')
+        } else {
+          setDirection('S')
+        }
+      }
+    }
   }
 
   startBtn.addEventListener('click', startGame)
@@ -150,5 +191,13 @@ document.addEventListener('DOMContentLoaded', () => {
   restartBtn.addEventListener('click', startGame)
 
   enableButton(startBtn)
+
+  // Create JoyStick object into the DIV 'joy1Div'
+  const Joy1 = new JoyStick('joy1Div');
+  // let joy1X = document.getElementById("joy1X");
+  // let joy1Y = document.getElementById("joy1Y");
+  // setInterval(function(){ joy1X.value=Joy1.GetX(); }, 50);
+  // setInterval(function(){ joy1Y.value=Joy1.GetY(); }, 50);
+  
 
 })
