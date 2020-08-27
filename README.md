@@ -10,6 +10,8 @@ based on the vanilia version by [Ania Kubow](https://github.com/kubowania/Nokia3
 
 ### Demo
 * [Here](https://laughing-rosalind-6388ec.netlify.app/#) (hosted by Netlify)
+![My Snake](mysnake-screen.png)
+
  
 ### MIT Licence
 
