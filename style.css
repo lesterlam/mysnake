@@ -79,7 +79,7 @@ Sourced from: https://css-tricks.com/the-shapes-of-css/
   top: 0;
   width: 15px;
   height: 25px;
-  background: firebrick;
+  background: rgb(163, 33, 33);
   border-radius: 25px 25px 0 0;
   transform: rotate(-45deg);
   transform-origin: 0 100%;

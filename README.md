@@ -13,6 +13,9 @@ based on the vanilia version by [Ania Kubow](https://github.com/kubowania/Nokia3
 
 ![My Snake](mysnake-screen.png)
 
+### Updates
+* Fixed some weird use of color
+
  
 ### MIT Licence
 
